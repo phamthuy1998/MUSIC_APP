@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Spotify Clone</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="spotify">Spotify</string>
+    <string name="image_landing">Image landing</string>
+    <string name="your_music">YOUR MUSIC</string>
+    <string name="tuned_to_you">Tuned to you.</string>
+    <string name="btn_create_acc">Create an account</string>
+    <string name="btn_login">I already have an account</string>
+    <string name="sign_in">Sign in</string>
+    <string name="button_back">Button back</string>
+    <string name="btn_login_facebook">Login with Facebook</string>
+    <string name="or">Or</string>
+    <string name="edt_email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="btnSignUpFacebook">Sign up with Facebook</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="day_of_birth">Day of birth</string>
+    <string name="male">Male</string>
+    <string name="radFemale">Female</string>
+    <string name="gender">Gender</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
+    <string name="tvSongName">Trúc xinh</string>
+    <string name="forgotPw">Enter your email address below and follow the
+        \ninstructions in the email we\'ll send you.</string>
+    <string name="reset_password">Reset password</string>
+    <string name="sign_up">Sign up</string>
+</resources>
