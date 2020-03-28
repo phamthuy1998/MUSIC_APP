@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBanner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/trucxinh" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgAvtBanner"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignBottom="@id/imgBanner"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:baselineAlignBottom="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/trucxinh" />
+
+    <TextView
+        android:id="@+id/tvTitleSongBanner"
+        style="@style/textTitleBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imgAvtBanner"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_toEndOf="@id/imgAvtBanner"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/tvSongName" />
+
+    <TextView
+        android:id="@+id/tvContentSongBanner"
+        style="@style/txtSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTitleSongBanner"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginS"
+        android:layout_toEndOf="@id/imgAvtBanner"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/tvSongName"
+        android:textColor="@color/colorWhite" />
+</RelativeLayout>
