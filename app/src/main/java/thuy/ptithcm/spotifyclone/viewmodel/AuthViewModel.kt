@@ -1,5 +1,6 @@
 package thuy.ptithcm.spotifyclone.viewmodel
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,11 +8,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import thuy.ptithcm.spotifyclone.data.NetworkState
-import thuy.ptithcm.spotifyclone.repository.UserRepository
+import thuy.ptithcm.spotifyclone.repository.AccRepository
+import thuy.ptithcm.spotifyclone.utils.hideKeyboard
 import thuy.ptithcm.spotifyclone.utils.isValidPassword
 
 class AuthViewModel(
-    private val repository: UserRepository
+    private val repository: AccRepository
 ) : ViewModel() {
 
     var email = MutableLiveData<String>().apply { value = "" }
@@ -25,7 +27,8 @@ class AuthViewModel(
     }
 
     //function to perform login
-    fun login() {
+    fun login(view: View) {
+        view.hideKeyboard()
         resultData.postValue(NetworkState.LOADING)
         disposables.add(
             repository.login(email.value ?: "", password.value ?: "")
@@ -39,7 +42,8 @@ class AuthViewModel(
         )
     }
 
-    fun forgotPw() {
+    fun forgotPw(view: View) {
+        view.hideKeyboard()
         resultData.postValue(NetworkState.LOADING)
         disposables.add(
             repository.sendMailResetPassword(email.value ?: "")
@@ -88,7 +92,7 @@ class AuthViewModel(
 
 @Suppress("UNCHECKED_CAST")
 class AuthViewModelFactory(
-    private val repository: UserRepository
+    private val repository: AccRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>) = AuthViewModel(repository) as T

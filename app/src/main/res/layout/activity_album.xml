@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.album.AlbumActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingTBAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/colorOrange"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <ImageView
+                android:id="@+id/ivAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/trucxinh"
+                app:layout_collapseMode="parallax"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#EDFFFFFF"
+                app:layout_collapseMode="parallax" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAlbumCircle"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/trucxinh"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll"
+                tools:ignore="ContentDescription" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_collapseMode="pin"
+                android:gravity="center"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <ImageView
+                    android:id="@+id/btnBackAlbum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginM"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/button_back"
+                    android:padding="@dimen/paddingDefault"
+                    android:src="@drawable/ic_back_btn"/>
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swRefreshAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSongAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_song" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressAlbum"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <!-- android:layout_gravity="center|bottom"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_anchor="@id/appBarAlbum"
+        app:layout_anchorGravity="center|bottom">
+
+        <ImageView
+            android:id="@+id/btnLikeAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:src="@drawable/ic_likealbum"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/btnPlayAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_playalbum"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/btnShareAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginStart="@dimen/default_margin"
+            android:src="@drawable/ic_share_album"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+
+    <!--
+            android:layout_gravity="center|bottom" -->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/btnPlayAlbum"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:src="@drawable/ic_playalbum"-->
+    <!--        app:layout_anchor="@id/appBarAlbum"-->
+    <!--        app:layout_anchorGravity="center|bottom"-->
+    <!--        tools:ignore="ContentDescription" />-->
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/btnLikeAlbum"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="start|center"-->
+    <!--        android:layout_marginEnd="@dimen/default_margin"-->
+    <!--        android:src="@drawable/ic_likealbum"-->
+    <!--        app:layout_anchor="@id/btnPlayAlbum"-->
+    <!--        app:layout_anchorGravity="start|center"-->
+    <!--        tools:ignore="ContentDescription" />-->
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/btnShareAlbum"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="end|center"-->
+    <!--        android:layout_marginStart="@dimen/default_margin"-->
+    <!--        android:src="@drawable/ic_share_album"-->
+    <!--        app:layout_anchor="@id/btnPlayAlbum"-->
+    <!--        app:layout_anchorGravity="right|center"-->
+    <!--        tools:ignore="ContentDescription" />-->
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

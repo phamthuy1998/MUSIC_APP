@@ -1,58 +1,48 @@
 package thuy.ptithcm.spotifyclone.repository
 
-import thuy.ptithcm.spotifyclone.firebase.FirebaseAuth
+import androidx.lifecycle.MutableLiveData
+import thuy.ptithcm.spotifyclone.data.NetworkState
+import thuy.ptithcm.spotifyclone.data.ResultData
+import thuy.ptithcm.spotifyclone.data.User
+import thuy.ptithcm.spotifyclone.firebase.FirebaseGetData
 
-class UserRepositoryImpl(private val firebase: FirebaseAuth) {
+class UserRepositoryImpl(private val firebase: FirebaseGetData) : UserRepository {
 
-//    //disposable to dispose the Completable
-//    private val compo = CompositeDisposable()
-//
-//     fun login(email: String, password: String): NetworkState {
-//        var networkState = NetworkState.LOADING
-//        compo.add(
-//            firebase.login(email, password)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                    {
-//                       return@subscribe (NetworkState.LOADED)
-//                    },
-//                    {
-//                        networkState = (NetworkState.error(it.message))
-//                    }
-//                )
-//        )
-//        return networkState
-//    }
-//
-//     fun register(email: String, password: String): NetworkState {
-//        var networkState = NetworkState.LOADING
-//        compo.add(
-//            firebase.register(email, password)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                    {
-//                        networkState = (NetworkState.LOADED)
-//                    },
-//                    {
-//                        networkState = (NetworkState.error(it.message))
-//                    }
-//                )
-//        )
-//        return networkState
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        compo.clear()
-//    }
-//
-//    override fun currentUser() {
-//        firebase.currentUser()
-//    }
-//
-//    override fun logout() {
-//        firebase.logout()
-//    }
+    override fun getUserInfo(): ResultData<User> {
+        val networkState = MutableLiveData<NetworkState>()
+        val responseListSong = MutableLiveData<User>()
+        firebase.getUserInfo(
+            onPrepared = {
+                networkState.postValue(NetworkState.LOADING)
+            },
+            onSuccess = { response ->
+                responseListSong.value = response
+                networkState.postValue(NetworkState.LOADED)
+            },
+            onError = { errMessage ->
+                networkState.postValue(NetworkState.error(errMessage))
+            }
+        )
+        return ResultData(
+            data = responseListSong,
+            networkState = networkState
+        )
+    }
+
+    override fun signOut(): ResultData<Boolean> {
+        val networkState = MutableLiveData<NetworkState>()
+        firebase.signOut(
+            onPrepared = {
+                networkState.postValue(NetworkState.LOADING)
+            },
+            onSuccess = {
+                networkState.postValue(NetworkState.LOADED)
+            }
+        )
+        return ResultData(
+            networkState = networkState
+        )
+    }
+
+
 }

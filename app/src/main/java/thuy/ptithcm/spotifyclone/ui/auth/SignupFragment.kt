@@ -51,12 +51,15 @@ class SignupFragment : Fragment(), TextWatcher {
 
     private fun addEvents() {
         binding.btnBackSignUp.setOnClickListener { requireActivity().onBackPressed() }
-        binding.btnSignUp.setOnClickListener { signUpAcc() }
+        binding.btnSignUp.setOnClickListener {
+            it.hideKeyboard()
+            signUpAcc()
+        }
         // Edit text change listener
         binding.edtEmail.addTextChangedListener(this)
         binding.edtUserName.addTextChangedListener(this)
         binding.edtDayOfBirth.addTextChangedListener(this)
-        binding.edtDayOfBirth.setOnClickListener { showDatetimePicker( binding.edtDayOfBirth) }
+        binding.edtDayOfBirth.setOnClickListener { showDatetimePicker(binding.edtDayOfBirth) }
         binding.edtPassword.addTextChangedListener(this)
         binding.edtConfirmPassword.addTextChangedListener(this)
     }

@@ -32,4 +32,29 @@
         \ninstructions in the email we\'ll send you.</string>
     <string name="reset_password">Reset password</string>
     <string name="sign_up">Sign up</string>
+    <string name="kind_of_music">Kind of music</string>
+    <string name="image_background">Image background</string>
+    <string name="song_type">Song type</string>
+    <string name="playlist">Playlists</string>
+    <string name="album">Album</string>
+    <string name="interal_speaker">Interal Speaker</string>
+    <string name="btn_back">Btn back</string>
+    <string name="btn_info">Btn info</string>
+    <string name="duration_format">%d:%02d</string>
+    <string name="duration_unknown">--:--</string>
+    <string name="find">Find</string>
+    <string name="account_information">Account information</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="favorite_song">Favorite songs</string>
+    <string name="artist">Artists</string>
+    <string name="albums">Albums</string>
+    <string name="listening_history">Listening history</string>
+    <string name="library">Library</string>
+    <string name="download">Downloads</string>
+    <string name="sign_out">Sign out</string>
+    <string name="record">Record</string>
+    <string name="records">Records</string>
+    <string name="genres_moods"><![CDATA[GENRES & MOODS]]></string>
+    <string name="featured_album">FEATURED ALBUM</string>
+    <string name="favorite_songs">Favorite songs</string>
 </resources>

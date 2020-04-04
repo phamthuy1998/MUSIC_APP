@@ -22,6 +22,15 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
             startAnimation(animation)
             animation?.setAnimationListener(this@SplashActivity)
         }
+
+//        val firebaseAddData = FirebaseAddData()
+//        firebaseAddData.addPlayList(Playlist(
+//            null,
+//            "",
+//            "",
+//            "",
+//            ""
+//        ))
     }
 
     override fun onAnimationRepeat(animation: Animation?) {
@@ -29,10 +38,11 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-        val intent = if (FirebaseAuth().currentUser() == null)
-            Intent(this, LoginActivity::class.java)
-        else
-            Intent(this, MainActivity::class.java)
+        val intent =
+            if (FirebaseAuth().currentUser() == null)
+                Intent(this, LoginActivity::class.java)
+            else
+                Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="thuy.ptithcm.spotifyclone.data.User" />
+
+        <variable
+            name="viewModel"
+            type="thuy.ptithcm.spotifyclone.viewmodel.UserViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.library.LibraryFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="@color/colorOrange"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/tbAcc"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                    <ImageView
+                        android:id="@+id/btnBackProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="onBack"
+                        android:padding="@dimen/paddingDefault"
+                        android:src="@drawable/ic_back_btn"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        style="@style/txtToolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:gravity="center"
+                        android:text="@string/account_information"
+                        android:textStyle="bold" />
+
+                </androidx.appcompat.widget.Toolbar>
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrayLine" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrayLine"
+                tools:ignore="Suspicious0dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#F3F3F3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrayLine" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivAccProfile"
+                    imageFromUrlForAvt="@{user.profilePhoto}"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/default_margin"
+                    tools:src="@drawable/trucxinh" />
+
+                <TextView
+                    android:id="@+id/tvAccName"
+                    style="@style/txtHeader2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/ivAccProfile"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_toEndOf="@id/ivAccProfile"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{user.username}"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    tools:text="Acc's name" />
+
+                <TextView
+                    android:id="@+id/tvDayCreateAcc"
+                    style="@style/txtSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvAccName"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/marginS"
+                    android:layout_toEndOf="@id/ivAccProfile"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{user.dayCreateAcc}"
+                    android:textColor="#000"
+                    tools:text="Day create account" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/default_margin"
+                android:background="@color/colorGrayLine"
+                tools:ignore="Suspicious0dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#F3F3F3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrayLine" />
+
+
+            <TextView
+                android:id="@+id/btnRecord"
+                style="@style/txtHeader2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/marginM"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_mic"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:drawablePadding="@dimen/default_margin"
+                android:padding="@dimen/paddingDefault"
+                android:text="@string/record"
+                android:textColor="#000" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/marginM"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/marginM"
+                android:background="@color/colorGrayLine" />
+
+            <TextView
+                android:id="@+id/btnSignOut"
+                style="@style/txtHeader2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="@dimen/paddingDefault"
+                android:text="@string/sign_out"
+                android:textColor="@color/colorOrange" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/marginM"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/marginM"
+                android:background="@color/colorGrayLine" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

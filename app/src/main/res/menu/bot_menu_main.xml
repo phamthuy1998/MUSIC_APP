@@ -11,13 +11,8 @@
         android:icon="@drawable/search_selector"
         android:title="@string/search" />
     <item
-        android:id="@+id/menu_notification"
-        android:contentDescription="@string/notification"
-        android:icon="@drawable/notification_selector"
-        android:title="@string/notification" />
-    <item
-        android:id="@+id/menu_acc"
-        android:contentDescription="@string/profile"
-        android:icon="@drawable/profile_selector"
-        android:title="@string/profile" />
+        android:id="@+id/menu_lib"
+        android:contentDescription="@string/library"
+        android:icon="@drawable/library_selector"
+        android:title="@string/library" />
 </menu>

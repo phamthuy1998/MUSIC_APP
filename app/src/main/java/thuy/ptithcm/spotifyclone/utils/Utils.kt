@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+
 
 fun AppCompatActivity.showFragment(parent: Int, fragment: Fragment, fragmentName: String? = null) {
     if (fragmentName.isNullOrEmpty())
@@ -30,6 +32,23 @@ fun Fragment.showFragment(parent: Int, fragment: Fragment, fragmentName: String?
             .replace(parent, fragment)
             .addToBackStack(fragmentName)
             .commit()
+}
+
+
+fun View.hideKeyboard() {
+    val inputMethodManager =
+        context.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+    inputMethodManager?.hideSoftInputFromWindow(this.windowToken, 0)
+}
+
+fun Activity.hideKeyboard() {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+    inputMethodManager?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+}
+
+fun Activity.showKeyboard() {
+    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 }
 
 fun Context.startActivity(activity: Activity) =

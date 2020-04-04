@@ -1,13 +1,10 @@
 package thuy.ptithcm.spotifyclone.ui.search
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import thuy.ptithcm.spotifyclone.R
 
 class SearchFragment : Fragment() {
@@ -15,9 +12,6 @@ class SearchFragment : Fragment() {
         private var instance: SearchFragment? = null
 
         fun getInstance() = instance ?: SearchFragment()
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

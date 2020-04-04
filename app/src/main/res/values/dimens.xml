@@ -11,4 +11,6 @@
     <dimen name="marginXL">30dp</dimen>
     <dimen name="marginXXL">40dp</dimen>
     <dimen name="marginS">5dp</dimen>
+    <dimen name="marginM">10dp</dimen>
+    <dimen name="paddingS">5dp</dimen>
 </resources>

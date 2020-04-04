@@ -25,6 +25,7 @@ class BannerAdapter(
     fun addDataAdvertise(arr: ArrayList<Advertise>?) {
         if (arr != null)
             arrAdvertise?.apply {
+                clear()
                 addAll(arr)
                 notifyDataSetChanged()
             }
@@ -53,7 +54,7 @@ class BannerAdapter(
             tvTitleSongBanner.text = item?.song_name
             tvContentSongBanner.text = item?.content
 
-            this.setOnClickListener { bannerItemClick(item?.id) }
+            this.setOnClickListener { bannerItemClick(item?.song_id) }
 
             container.addView(this)
         }

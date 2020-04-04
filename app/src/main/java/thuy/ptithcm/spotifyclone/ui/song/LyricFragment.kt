@@ -1,4 +1,4 @@
-package thuy.ptithcm.spotifyclone.ui.acc
+package thuy.ptithcm.spotifyclone.ui.song
 
 
 import android.os.Bundle
@@ -11,19 +11,14 @@ import thuy.ptithcm.spotifyclone.R
 /**
  * A simple [Fragment] subclass.
  */
-class AccountFragment : Fragment() {
+class LyricFragment : Fragment() {
 
-    companion object {
-        private var instance: AccountFragment? = null
-
-        fun getInstance() = instance ?: AccountFragment()
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acc, container, false)
+        return inflater.inflate(R.layout.fragment_lyric, container, false)
     }
 
 

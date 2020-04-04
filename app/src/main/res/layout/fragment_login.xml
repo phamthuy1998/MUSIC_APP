@@ -123,7 +123,7 @@
             android:clickable="true"
             android:enabled="@{viewmodel.isValidateEmailPassword(viewmodel.email,viewmodel.password)}"
             android:gravity="center"
-            android:onClick="@{() -> viewmodel.login()}"
+            android:onClick="@{(v) -> viewmodel.login(v)}"
             android:padding="@dimen/paddingDefault"
             android:text="@string/sign_in" />
 

@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="thuy.ptithcm.spotifyclone">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -11,9 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ui.download.DownloadActivity"></activity>
+        <activity android:name=".ui.records.RecordActivity" />
+        <activity android:name=".ui.playlist.PlaylistActivity" />
+        <activity android:name=".ui.artist.ArtistActivity" />
+        <activity android:name=".ui.favorite.FavoriteSongActivity" />
+        <activity android:name=".ui.album.AlbumListActivity" />
+        <activity android:name=".ui.album.AlbumActivity" />
+        <activity android:name=".ui.songtype.SongTypeActivity" />
         <activity android:name=".ui.song.SongActivity" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -31,6 +42,10 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
+
+        <service
+            android:name=".service.SoundService"
+            android:enabled="true" />
     </application>
 
 </manifest>

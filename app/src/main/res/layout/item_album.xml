@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="album"
+            type="thuy.ptithcm.spotifyclone.data.Album" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/marginM"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivAlbum"
+            imageRoundedFromUrl="@{album.imageURL}"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/country" />
+
+        <TextView
+            android:id="@+id/tvAlbumName"
+            style="@style/textTitleBold"
+            android:layout_width="150dp"
+            android:textColor="@color/colorText"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivAlbum"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{album.albumName}"
+            android:textStyle="normal"
+            tools:text="Album name" />
+    </RelativeLayout>
+</layout>

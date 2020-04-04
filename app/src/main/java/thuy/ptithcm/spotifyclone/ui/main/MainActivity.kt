@@ -1,14 +1,15 @@
 package thuy.ptithcm.spotifyclone.ui.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import thuy.ptithcm.spotifyclone.R
-import thuy.ptithcm.spotifyclone.ui.acc.AccountFragment
+import thuy.ptithcm.spotifyclone.ui.acc.ProfileFragment
 import thuy.ptithcm.spotifyclone.ui.home.HomeFragment
-import thuy.ptithcm.spotifyclone.ui.notification.NotificationFragment
+import thuy.ptithcm.spotifyclone.ui.library.LibraryFragment
 import thuy.ptithcm.spotifyclone.ui.search.SearchFragment
-import thuy.ptithcm.spotifyclone.utils.showFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +23,8 @@ class MainActivity : AppCompatActivity() {
         SearchFragment.getInstance()
     }
 
-    private val notificationFragment by lazy {
-        NotificationFragment.getInstance()
-    }
-
     private val accFragment by lazy {
-        AccountFragment.getInstance()
+        LibraryFragment.getInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,31 +34,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        showFragment(R.id.frm_main, homeFragment)
+        showFragment(homeFragment)
         botNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.menu_home -> {
                     count++
                     if (count == 2) {
+                        // Todo() --> call event bus to scroll up recycler view
+                    }
+                    if (count == 3) {
                         // Todo --> call event bus to scroll up recycler view
                         count = 0
                     }
-                    showFragment(R.id.frm_main, homeFragment)
+                    showFragment(homeFragment)
                     true
                 }
                 R.id.menu_search -> {
                     count = 0
-                    showFragment(R.id.frm_main, searchFragment)
+                    showFragment(searchFragment)
                     true
                 }
-                R.id.menu_notification -> {
+                R.id.menu_lib -> {
                     count = 0
-                    showFragment(R.id.frm_main, notificationFragment)
-                    true
-                }
-                R.id.menu_acc -> {
-                    count = 0
-                    showFragment(R.id.frm_main, accFragment)
+                    showFragment(accFragment)
                     true
                 }
                 else -> false
@@ -69,9 +64,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun showFragment(R.id.frm_main,fragment: Fragment) {
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.frm_main, fragment)
-//            .commit()
-//    }
+    private fun showFragment(fragment: Fragment, fragmentName: String? = null) {
+        if (!fragment.isAdded)
+            if (fragmentName == null)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frmMain, fragment)
+                    .commit()
+            else
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frmMain, fragment)
+                    .addToBackStack(fragmentName)
+                    .commit()
+    }
+
+    fun showFragmentSearch(view: View) {
+        showFragment(searchFragment)
+        botNavigation.selectedItemId = R.id.menu_search
+    }
+
+    fun showProfileFragment(view: View) {
+        showFragment(ProfileFragment(), "ProfileFragment")
+    }
+
+    fun onBack(view: View) = onBackPressed()
 }
