@@ -19,6 +19,7 @@ class NowPlayingViewModel(
     private var requestSong = MutableLiveData<ResultData<Song>>()
     var requestLikeSong = MutableLiveData<NetworkState>()
     var requestUnLikeSong = MutableLiveData<NetworkState>()
+    var checkSongIsLike = MutableLiveData<Boolean>()
     private val handler = Handler(Looper.getMainLooper())
     private var playbackState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE
     private var updatePosition = true
@@ -34,6 +35,10 @@ class NowPlayingViewModel(
 
     fun getSongInfo(songID: String) {
         requestSong.value = repository.getSongByID(songID)
+    }
+
+    fun getStatusLikeOfSong(songID: String) {
+        checkSongIsLike = repository.checkSongFavorite(songID)
     }
 
     fun addSongIntoHistory(song: Song) {

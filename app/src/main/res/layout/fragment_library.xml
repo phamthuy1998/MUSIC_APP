@@ -5,7 +5,7 @@
 
         <variable
             name="viewmodel"
-            type="thuy.ptithcm.spotifyclone.viewmodel.UserViewModel" />
+            type="thuy.ptithcm.spotifyclone.viewmodel.LibraryViewModel" />
 
         <variable
             name="user"
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorOrange"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/tbAcc"
@@ -54,11 +54,11 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/ivAvtLibrary"
-                            android:onClick="showProfileFragment"
                             imageFromUrlForAvt="@{user.profilePhoto}"
                             android:layout_width="?actionBarSize"
                             android:layout_height="?actionBarSize"
                             android:layout_marginEnd="@dimen/default_margin"
+                            android:onClick="showProfileFragment"
                             android:padding="12dp"
                             tools:src="@drawable/trucxinh" />
                     </LinearLayout>
@@ -97,7 +97,6 @@
                     android:background="@color/colorGrayLine" />
 
                 <TextView
-                    android:onClick="@{(v)-> viewmodel.showFavoriteSongs(v)}"
                     android:id="@+id/btnFavoriteSong"
                     style="@style/txtHeader2"
                     android:layout_width="match_parent"
@@ -110,6 +109,7 @@
                     android:drawableStart="@drawable/ic_songs"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
+                    android:onClick="@{(v)-> viewmodel.showFavoriteSongs(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/favorite_song"
                     android:textColor="#000" />
@@ -125,7 +125,6 @@
 
                 <TextView
                     android:id="@+id/btnAlbum"
-                    android:onClick="@{(v)-> viewmodel.showAlbumLike(v)}"
                     style="@style/txtHeader2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,6 +135,7 @@
                     android:drawableStart="@drawable/ic_album"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
+                    android:onClick="@{(v)-> viewmodel.showAlbumLike(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/albums"
                     android:textColor="#000" />
@@ -152,7 +152,6 @@
                 <TextView
                     android:id="@+id/btnArtist"
                     style="@style/txtHeader2"
-                    android:onClick="@{(v)-> viewmodel.showArtistFollowing(v)}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_margin"
@@ -162,6 +161,7 @@
                     android:drawableStart="@drawable/ic_artist"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
+                    android:onClick="@{(v)-> viewmodel.showArtistFollowing(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/artist"
                     android:textColor="#000" />
@@ -179,7 +179,6 @@
                     android:id="@+id/btnPlaylist"
                     style="@style/txtHeader2"
                     android:layout_width="match_parent"
-                    android:onClick="@{(v)-> viewmodel.showPlaylist(v)}"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
@@ -188,6 +187,7 @@
                     android:drawableStart="@drawable/ic_playlist"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
+                    android:onClick="@{(v)-> viewmodel.showPlaylist(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/playlist"
                     android:textColor="#000" />
@@ -204,7 +204,6 @@
                 <TextView
                     android:id="@+id/btnRecords"
                     style="@style/txtHeader2"
-                    android:onClick="@{(v)-> viewmodel.showRecords(v)}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_margin"
@@ -214,6 +213,7 @@
                     android:drawableStart="@drawable/ic_mic"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
+                    android:onClick="@{(v)-> viewmodel.showRecords(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/records"
                     android:textColor="#000" />
@@ -233,7 +233,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_margin"
-                    android:onClick="@{(v)-> viewmodel.showDownloads(v)}"
                     android:layout_marginEnd="@dimen/default_margin"
                     android:layout_marginBottom="@dimen/marginM"
                     android:background="?attr/selectableItemBackground"
@@ -241,6 +240,7 @@
                     android:drawableStart="@drawable/ic_download"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
+                    android:onClick="@{(v)-> viewmodel.showDownloads(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/download"
                     android:textColor="#000" />
@@ -270,7 +270,6 @@
                     android:layout_marginEnd="@dimen/default_margin"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
-                    android:drawablePadding="@dimen/default_margin"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/listening_history"
                     android:textColor="#000" />
@@ -283,6 +282,40 @@
                     android:layout_marginEnd="@dimen/default_margin"
                     android:layout_marginBottom="@dimen/marginM"
                     android:background="@color/colorGrayLine" />
+
+                <ProgressBar
+                    android:id="@+id/progressHistorySong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:visibility="gone"
+                    android:layout_gravity="center" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHistorySong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_song" />
+
+                <TextView
+                    android:id="@+id/btnShowAllHistory"
+                    style="@style/txtHeader2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_arrow_right"
+                    android:drawablePadding="@dimen/default_margin"
+                    android:gravity="center"
+                    android:onClick="@{(v) -> viewmodel.showAlHistory(v)}"
+                    android:padding="@dimen/paddingDefault"
+                    android:text="@string/show_all_listening_history"
+                    android:textColor="#2196F3" />
 
             </LinearLayout>
         </ScrollView>

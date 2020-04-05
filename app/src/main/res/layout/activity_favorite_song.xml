@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorOrange"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                app:layout_scrollFlags="scroll|enterAlways">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/tbAcc"

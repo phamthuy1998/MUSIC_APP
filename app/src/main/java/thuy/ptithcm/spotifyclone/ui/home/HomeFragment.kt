@@ -163,8 +163,8 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.networkStatePlaylist.observe(requireActivity(), Observer {
-            if (it?.status == Status.FAILED)
-                Toast.makeText(requireActivity(), it.msg, Toast.LENGTH_LONG).show()
+//            if (it?.status == Status.FAILED)
+//                Toast.makeText(requireActivity(), it.msg, Toast.LENGTH_LONG).show()
         })
 
         //Songtype

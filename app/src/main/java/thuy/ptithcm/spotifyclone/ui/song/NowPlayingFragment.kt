@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_now_playing.*
+import org.greenrobot.eventbus.EventBus
 import thuy.ptithcm.spotifyclone.data.Song
 import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.databinding.FragmentNowPlayingBinding
@@ -43,9 +44,10 @@ class NowPlayingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val songID = requireActivity().intent.getStringExtra("SongID")
-        if (songID != null)
+        if (songID != null) {
             nowPlayingViewModel.getSongInfo(songID)
-        else Toast.makeText(requireContext(), "Can't load info of this song!", Toast.LENGTH_LONG)
+            nowPlayingViewModel.getStatusLikeOfSong(songID)
+        } else Toast.makeText(requireContext(), "Can't load info of this song!", Toast.LENGTH_LONG)
             .show()
         addEvents()
         bindingViewModel()
@@ -64,7 +66,10 @@ class NowPlayingFragment : Fragment() {
         if (song != null && song?.id != null) {
             binding.btnFavorite.isSelected = !binding.btnFavorite.isSelected
             if (binding.btnFavorite.isSelected) nowPlayingViewModel.addFavoriteSong(song!!)
-            else nowPlayingViewModel.removeFavoriteSong(song?.id!!)
+            else {
+                nowPlayingViewModel.removeFavoriteSong(song?.id!!)
+                EventBus.getDefault().post(true)
+            }
         } else
             Toast.makeText(requireContext(), "Can't like this song!", Toast.LENGTH_LONG).show()
     }
@@ -81,7 +86,6 @@ class NowPlayingFragment : Fragment() {
     }
 
     private fun updateUI(_song: Song?) {
-        binding.btnFavorite.isSelected = song?.isLike ?: false
         song = _song
         binding.song = song
         binding.tvTotalTime.text = song?.time?.let { Song.timestampIntToMSS(requireContext(), it) }
@@ -120,6 +124,10 @@ class NowPlayingFragment : Fragment() {
         nowPlayingViewModel.requestUnLikeSong.observe(requireActivity(), Observer { isUnlike ->
             if (isUnlike?.status == Status.SUCCESS) Toast
                 .makeText(requireContext(), "Removed from your Library!", Toast.LENGTH_LONG).show()
+        })
+
+        nowPlayingViewModel.checkSongIsLike.observe(requireActivity(), Observer {
+            binding.btnFavorite.isSelected = it ?: false
         })
 
     }

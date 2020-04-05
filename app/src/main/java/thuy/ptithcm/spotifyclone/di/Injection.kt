@@ -24,9 +24,16 @@ object Injection {
     fun provideKindOfSongViewModelFactory(): ViewModelProvider.Factory {
         return KindOfSongViewModelFactory(KindOfSongRepositoryImpl())
     }
+    fun provideHistorySongViewModelFactory(): ViewModelProvider.Factory {
+        return HistorySongViewModelFactory(HistorySongRepositoryImpl())
+    }
+
+    fun provideLibraryViewModelFactory(): ViewModelProvider.Factory {
+        return LibraryViewModelFactory(LibraryRepositoryImpl())
+    }
 
     fun provideUserViewModelFactory(): ViewModelProvider.Factory {
-        return UserViewModelFactory(UserRepositoryImpl())
+        return UserViewModelFactory(LibraryRepositoryImpl())
     }
 
     fun provideFavoriteSongViewModelFactory(): ViewModelProvider.Factory {

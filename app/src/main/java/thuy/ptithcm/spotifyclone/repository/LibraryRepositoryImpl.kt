@@ -8,10 +8,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import thuy.ptithcm.spotifyclone.data.NetworkState
 import thuy.ptithcm.spotifyclone.data.ResultData
+import thuy.ptithcm.spotifyclone.data.Song
 import thuy.ptithcm.spotifyclone.data.User
+import thuy.ptithcm.spotifyclone.utils.HISTORY
+import thuy.ptithcm.spotifyclone.utils.ITEM_COUNT_HISTORY
 import thuy.ptithcm.spotifyclone.utils.USER
 
-class UserRepositoryImpl: UserRepository {
+class LibraryRepositoryImpl : LibraryRepository {
 
     private val firebaseAuth: FirebaseAuth? by lazy {
         FirebaseAuth.getInstance()
@@ -51,6 +54,45 @@ class UserRepositoryImpl: UserRepository {
         query?.addValueEventListener(valueEventListener)
         return ResultData(
             data = responseListSong,
+            networkState = networkState
+        )
+    }
+
+    override fun getSongHistoryList(): ResultData<ArrayList<Song>> {
+        val networkState = MutableLiveData<NetworkState>()
+        val responseHistorySongList = MutableLiveData<ArrayList<Song>>()
+        networkState.postValue(NetworkState.LOADING)
+        val listSong = ArrayList<Song>()
+        var song: Song?
+        val query = currentUser()?.uid?.let {
+            databaseRef()?.child(HISTORY)?.child(it)?.limitToLast(
+                ITEM_COUNT_HISTORY
+            )
+        }
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (ds in dataSnapshot.children) {
+                        song = ds.getValue(Song::class.java)
+                        song?.let { listSong.add(it) }
+                    }
+                    if (listSong.size > 0) {
+                        responseHistorySongList.value = listSong
+                        networkState.postValue(NetworkState.LOADED)
+                    } else
+                        networkState.postValue(NetworkState.error("List favorite song are empty!"))
+                } else {
+                    networkState.postValue(NetworkState.error("List favorite song are empty!"))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) =
+                networkState.postValue(NetworkState.error(databaseError.toException().toString()))
+        }
+        query?.addValueEventListener(valueEventListener)
+        return ResultData(
+            data = responseHistorySongList,
             networkState = networkState
         )
     }

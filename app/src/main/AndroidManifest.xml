@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.download.DownloadActivity"></activity>
+        <activity android:name=".ui.history.HistoryActivity"/>
+        <activity android:name=".ui.download.DownloadActivity" />
         <activity android:name=".ui.records.RecordActivity" />
         <activity android:name=".ui.playlist.PlaylistActivity" />
         <activity android:name=".ui.artist.ArtistActivity" />

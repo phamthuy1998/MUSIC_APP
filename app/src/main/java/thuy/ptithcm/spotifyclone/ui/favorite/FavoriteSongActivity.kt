@@ -9,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_favorite_song.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import thuy.ptithcm.spotifyclone.R
+import thuy.ptithcm.spotifyclone.data.EventTypeSong
 import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.di.Injection
-import thuy.ptithcm.spotifyclone.data.EventTypeSong
 import thuy.ptithcm.spotifyclone.ui.album.adapter.SongAdapter
 import thuy.ptithcm.spotifyclone.ui.song.SongActivity
 import thuy.ptithcm.spotifyclone.utils.gone
@@ -20,6 +23,7 @@ import thuy.ptithcm.spotifyclone.utils.hideKeyboard
 import thuy.ptithcm.spotifyclone.utils.showKeyboard
 import thuy.ptithcm.spotifyclone.utils.visible
 import thuy.ptithcm.spotifyclone.viewmodel.FavoriteSongViewModel
+
 
 class FavoriteSongActivity : AppCompatActivity(), TextWatcher {
 
@@ -46,9 +50,16 @@ class FavoriteSongActivity : AppCompatActivity(), TextWatcher {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onListFavoriteChanged(checkChanged: Boolean) {
+        if (checkChanged)
+            favoriteSongViewModel.getListFavoriteSong()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_song)
+        EventBus.getDefault().register(this)
         hideKeyboard()
         initViews()
         addEvents()
@@ -118,10 +129,10 @@ class FavoriteSongActivity : AppCompatActivity(), TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        songAdapter.search(s.toString(),{
+        songAdapter.search(s.toString(), {
             llSearchNotFound.visible()
             songAdapter.removeAllData()
-        },{
+        }, {
             songAdapter.addDataSearch(it)
             llSearchNotFound.gone()
         })

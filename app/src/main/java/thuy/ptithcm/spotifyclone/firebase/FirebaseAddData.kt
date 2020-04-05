@@ -110,8 +110,8 @@ class FirebaseAddData {
         databaseRef()?.child(COUNTRY)?.child(idPush.toString())?.setValue(country)
     }
 
-    fun currentUser() = firebaseAuth.currentUser
+    private fun currentUser() = firebaseAuth.currentUser
 
-    fun databaseRef() = firebaseDatabase?.reference
+    private fun databaseRef() = firebaseDatabase?.reference
 
 }

@@ -1,4 +1,4 @@
-package thuy.ptithcm.spotifyclone.ui.home.adapter
+package thuy.ptithcm.spotifyclone.base
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -24,7 +24,6 @@ fun bindImageFromUrlAvatar(view: ImageView, imageUrl: String?) {
         Glide.with(view.context)
             .load(imageUrl)
             .error(R.drawable.ic_account)
-            .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }else
        view.setImageResource(R.drawable.ic_account)

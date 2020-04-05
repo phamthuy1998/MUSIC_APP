@@ -5,6 +5,7 @@ const val BASE_URL = "http://string-api.vinova.sg/api/"
 
 const val CURRENT_PER_PAGE = 20
 const val ITEM_COUNT_BANNER = 5
+const val ITEM_COUNT_HISTORY = 3
 const val VERSION_STRING = "1.0.1"
 
 const val PREFS_NAME = "PREFERENCES"

@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="thuy.ptithcm.spotifyclone.viewmodel.UserViewModel" />
+            type="thuy.ptithcm.spotifyclone.viewmodel.ProfileViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -68,141 +68,148 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/colorGrayLine"
-                tools:ignore="Suspicious0dp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F3F3F3" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGrayLine"
+                    tools:ignore="Suspicious0dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/colorGrayLine" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="#F3F3F3" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGrayLine" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivAccProfile"
-                    imageFromUrlForAvt="@{user.profilePhoto}"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="@dimen/default_margin"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivAccProfile"
+                        imageFromUrlForAvt="@{user.profilePhoto}"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="@dimen/default_margin"
+                        tools:src="@drawable/trucxinh" />
+
+                    <TextView
+                        android:id="@+id/tvAccName"
+                        style="@style/txtHeader2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/ivAccProfile"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_toEndOf="@id/ivAccProfile"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{user.username}"
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        tools:text="Acc's name" />
+
+                    <TextView
+                        android:id="@+id/tvDayCreateAcc"
+                        style="@style/txtSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvAccName"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:layout_marginTop="@dimen/marginS"
+                        android:layout_toEndOf="@id/ivAccProfile"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="@{user.dayCreateAcc}"
+                        android:textColor="#000"
+                        tools:text="Day create account" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="@dimen/default_margin"
-                    tools:src="@drawable/trucxinh" />
+                    android:background="@color/colorGrayLine"
+                    tools:ignore="Suspicious0dp" />
 
                 <TextView
-                    android:id="@+id/tvAccName"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="#F3F3F3" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGrayLine" />
+
+
+                <TextView
+                    android:id="@+id/btnRecord"
                     style="@style/txtHeader2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/ivAccProfile"
                     android:layout_marginStart="@dimen/default_margin"
-                    android:layout_toEndOf="@id/ivAccProfile"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{user.username}"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    tools:text="Acc's name" />
+                    android:layout_marginTop="@dimen/marginM"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_mic"
+                    android:drawableEnd="@drawable/ic_arrow_right"
+                    android:drawablePadding="@dimen/default_margin"
+                    android:padding="@dimen/paddingDefault"
+                    android:text="@string/record"
+                    android:textColor="#000" />
 
                 <TextView
-                    android:id="@+id/tvDayCreateAcc"
-                    style="@style/txtSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvAccName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
                     android:layout_marginStart="@dimen/default_margin"
-                    android:layout_marginTop="@dimen/marginS"
-                    android:layout_toEndOf="@id/ivAccProfile"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{user.dayCreateAcc}"
-                    android:textColor="#000"
-                    tools:text="Day create account" />
+                    android:layout_marginTop="@dimen/marginM"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_marginBottom="@dimen/marginM"
+                    android:background="@color/colorGrayLine" />
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/btnSignOut"
+                    style="@style/txtHeader2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="@dimen/paddingDefault"
+                    android:text="@string/sign_out"
+                    android:textColor="@color/colorOrange" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/default_margin"
-                android:background="@color/colorGrayLine"
-                tools:ignore="Suspicious0dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/marginM"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_marginBottom="@dimen/marginM"
+                    android:background="@color/colorGrayLine" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="#F3F3F3" />
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/colorGrayLine" />
-
-
-            <TextView
-                android:id="@+id/btnRecord"
-                style="@style/txtHeader2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/marginM"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:drawableStart="@drawable/ic_mic"
-                android:drawableEnd="@drawable/ic_arrow_right"
-                android:drawablePadding="@dimen/default_margin"
-                android:padding="@dimen/paddingDefault"
-                android:text="@string/record"
-                android:textColor="#000" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/marginM"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:layout_marginBottom="@dimen/marginM"
-                android:background="@color/colorGrayLine" />
-
-            <TextView
-                android:id="@+id/btnSignOut"
-                style="@style/txtHeader2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center"
-                android:padding="@dimen/paddingDefault"
-                android:text="@string/sign_out"
-                android:textColor="@color/colorOrange" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginTop="@dimen/marginM"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:layout_marginBottom="@dimen/marginM"
-                android:background="@color/colorGrayLine" />
-
-        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressProfile"

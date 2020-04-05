@@ -5,48 +5,48 @@ import android.view.View
 import androidx.lifecycle.*
 import thuy.ptithcm.spotifyclone.data.NetworkState
 import thuy.ptithcm.spotifyclone.data.ResultData
+import thuy.ptithcm.spotifyclone.data.Song
 import thuy.ptithcm.spotifyclone.data.User
-import thuy.ptithcm.spotifyclone.repository.UserRepository
+import thuy.ptithcm.spotifyclone.repository.LibraryRepository
 import thuy.ptithcm.spotifyclone.ui.album.AlbumListActivity
 import thuy.ptithcm.spotifyclone.ui.artist.ArtistActivity
 import thuy.ptithcm.spotifyclone.ui.download.DownloadActivity
 import thuy.ptithcm.spotifyclone.ui.favorite.FavoriteSongActivity
+import thuy.ptithcm.spotifyclone.ui.history.HistoryActivity
 import thuy.ptithcm.spotifyclone.ui.playlist.PlaylistActivity
 import thuy.ptithcm.spotifyclone.ui.records.RecordActivity
 
-class UserViewModel(
-    private val repository: UserRepository
+class LibraryViewModel(
+    private val repository: LibraryRepository
 ) : ViewModel() {
     private var requestUser = MutableLiveData<ResultData<User>>()
-    private var requestSignOut = MutableLiveData<ResultData<Boolean>>()
+    private var requestSongHistory = MutableLiveData<ResultData<ArrayList<Song>>>()
+
+    val listSongHistory: LiveData<ArrayList<Song>> =
+        Transformations.switchMap(requestSongHistory) {
+            it.data
+        }
+
+    val networkStateListSong: LiveData<NetworkState> =
+        Transformations.switchMap(requestSongHistory) {
+            it.networkState
+        }
+
+    fun getListSongHistory() {
+        requestSongHistory.value = repository.getSongHistoryList()
+    }
 
     init {
         getUserInfo()
     }
-
-    fun refresh() = getUserInfo()
 
     val userInfo: LiveData<User> =
         Transformations.switchMap(requestUser) {
             it.data
         }
 
-    val networkStateListSong: LiveData<NetworkState> =
-        Transformations.switchMap(requestUser) {
-            it.networkState
-        }
-
-    val networkSignOut: LiveData<NetworkState> =
-        Transformations.switchMap(requestSignOut) {
-            it.networkState
-        }
-
     private fun getUserInfo() {
         requestUser.value = repository.getUserInfo()
-    }
-
-    fun signOut() {
-        requestSignOut.value = repository.signOut()
     }
 
     fun showFavoriteSongs(view: View) {
@@ -59,8 +59,8 @@ class UserViewModel(
         view.context.startActivity(intent)
     }
 
-    fun showFragmentProfile(view: View) {
-        val intent = Intent(view.context, AlbumListActivity().javaClass)
+    fun showAlHistory(view: View) {
+        val intent = Intent(view.context, HistoryActivity().javaClass)
         view.context.startActivity(intent)
     }
 
@@ -88,10 +88,10 @@ class UserViewModel(
 
 
 @Suppress("UNCHECKED_CAST")
-class UserViewModelFactory(
-    private val repository: UserRepository
+class LibraryViewModelFactory(
+    private val repository: LibraryRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = UserViewModel(repository) as T
+    override fun <T : ViewModel?> create(modelClass: Class<T>) = LibraryViewModel(repository) as T
 
 }

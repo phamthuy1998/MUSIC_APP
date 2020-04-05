@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,15 +16,15 @@ import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.databinding.FragmentProfileBinding
 import thuy.ptithcm.spotifyclone.di.Injection
 import thuy.ptithcm.spotifyclone.ui.auth.LoginActivity
-import thuy.ptithcm.spotifyclone.viewmodel.UserViewModel
+import thuy.ptithcm.spotifyclone.viewmodel.ProfileViewModel
 
 
 class ProfileFragment : Fragment() {
 
-    private val userViewModel: UserViewModel by lazy {
+    private val profileViewModel: ProfileViewModel by lazy {
         ViewModelProviders
             .of(requireActivity(), Injection.provideUserViewModelFactory())
-            .get(UserViewModel::class.java)
+            .get(ProfileViewModel::class.java)
     }
 
     private lateinit var binding: FragmentProfileBinding
@@ -33,7 +34,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-        binding.viewModel = userViewModel
+        binding.viewModel = profileViewModel
         return binding.root
     }
 
@@ -45,15 +46,22 @@ class ProfileFragment : Fragment() {
 
     private fun addEvents() {
         binding.btnSignOut.setOnClickListener { showDialogConfirmSignOut() }
+        binding.swProfile.setOnRefreshListener { refreshProfile() }
+    }
+
+    private fun refreshProfile() {
+        profileViewModel.getUserInfo()
+        binding.swProfile.isRefreshing = false
     }
 
     private fun showDialogConfirmSignOut() {
         val builder = AlertDialog.Builder(requireContext())
-        val optionDialog =builder.create()
+        val optionDialog = builder.create()
         with(builder)
         {
             setMessage("Are you sure you want to log out this account?")
             setPositiveButton("Sign out", DialogInterface.OnClickListener { dialog, id ->
+                profileViewModel.signOut()
                 openLoginActivity()
             })
             setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
@@ -65,15 +73,25 @@ class ProfileFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        userViewModel.networkSignOut.observe(requireActivity(), Observer {
+        profileViewModel.networkSignOut.observe(requireActivity(), Observer {
             binding.progressProfile.visibility =
                 if (it?.status == Status.RUNNING) View.VISIBLE else View.GONE
             if (it?.status == Status.SUCCESS) openLoginActivity()
         })
 
-        userViewModel.userInfo.observe(requireActivity(), Observer { user ->
+        profileViewModel.userInfo.observe(requireActivity(), Observer { user ->
             if (user != null)
                 binding.user = user
+        })
+        profileViewModel.networkStateUserInfo.observe(this, Observer {
+            if (it?.status == Status.FAILED) Toast
+                .makeText(requireContext(), "Can't load info of your profile!", Toast.LENGTH_LONG)
+                .show()
+        })
+        profileViewModel.networkSignOut.observe(this, Observer {
+            if (it?.status == Status.SUCCESS) Toast
+                .makeText(requireContext(), "Log out success!", Toast.LENGTH_LONG)
+                .show()
         })
     }
 
