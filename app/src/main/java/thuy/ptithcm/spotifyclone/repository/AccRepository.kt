@@ -1,21 +1,15 @@
 package thuy.ptithcm.spotifyclone.repository
 
-import thuy.ptithcm.spotifyclone.firebase.FirebaseAuth
+import thuy.ptithcm.spotifyclone.data.ResultData
 
-class AccRepository(private val firebase: FirebaseAuth) {
-    fun login(email: String, password: String) = firebase.login(email, password)
-
-    fun sendMailResetPassword(email: String) = firebase.sendMailResetPassword(email)
-
+interface AccRepository {
+    fun login(email: String, password: String): ResultData<Boolean>
+    fun sendMailResetPassword(email: String): ResultData<Boolean>
     fun register(
         email: String,
         username: String,
         dayOfBirth: String,
         gender: Boolean,
         password: String
-    ) = firebase.register(email, username, dayOfBirth, gender, password)
-
-    fun currentUser() = firebase.currentUser()
-
-    fun logout() = firebase.logout()
+    ): ResultData<Boolean>
 }

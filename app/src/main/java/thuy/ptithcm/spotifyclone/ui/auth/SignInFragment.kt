@@ -27,7 +27,7 @@ class SignInFragment : Fragment() {
 
     private val viewModel: AuthViewModel by lazy {
         ViewModelProviders
-            .of(requireActivity(), Injection.provideAuthViewModelFactory())
+            .of(requireActivity(), Injection.provideAccViewModelFactory())
             .get(AuthViewModel::class.java)
     }
 
@@ -55,7 +55,13 @@ class SignInFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        viewModel.resultData.observe(this, Observer {
+        viewModel.logInStatus?.observe(requireActivity(), Observer {
+            if (it == true) {
+                requireActivity().startActivity(MainActivity())
+                requireActivity().finish()
+            }
+        })
+        viewModel.networkLogin.observe(this, Observer {
             when (it?.status) {
                 Status.FAILED -> {
                     binding.progressbarSignIn.invisible()
@@ -75,8 +81,7 @@ class SignInFragment : Fragment() {
                 }
                 Status.SUCCESS -> {
                     binding.progressbarSignIn.invisible()
-                    requireActivity().startActivity(MainActivity())
-                    requireActivity().finish()
+
                 }
             }
         })

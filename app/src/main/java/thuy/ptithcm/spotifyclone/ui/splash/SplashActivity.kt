@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import thuy.ptithcm.spotifyclone.R
-import thuy.ptithcm.spotifyclone.firebase.FirebaseAuth
 import thuy.ptithcm.spotifyclone.ui.auth.LoginActivity
 import thuy.ptithcm.spotifyclone.ui.main.MainActivity
 
@@ -39,7 +38,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
 
     override fun onAnimationEnd(animation: Animation?) {
         val intent =
-            if (FirebaseAuth().currentUser() == null)
+            if (com.google.firebase.auth.FirebaseAuth.getInstance().currentUser == null)
                 Intent(this, LoginActivity::class.java)
             else
                 Intent(this, MainActivity::class.java)

@@ -16,7 +16,6 @@ import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.databinding.FragmentNowPlayingBinding
 import thuy.ptithcm.spotifyclone.di.Injection
 import thuy.ptithcm.spotifyclone.service.SoundService
-import thuy.ptithcm.spotifyclone.viewmodel.AppViewModel
 import thuy.ptithcm.spotifyclone.viewmodel.NowPlayingViewModel
 
 
@@ -24,16 +23,13 @@ class NowPlayingFragment : Fragment() {
 
     private lateinit var binding: FragmentNowPlayingBinding
     private var song: Song? = null
-    private lateinit var nowPlayingViewmodel: NowPlayingViewModel
-    private lateinit var appViewModel: AppViewModel
-//    private  lateinit var musicPlayer: MediaPlayer
+    private lateinit var nowPlayingViewModel: NowPlayingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        nowPlayingViewmodel = ViewModelProviders
+        nowPlayingViewModel = ViewModelProviders
             .of(this, Injection.provideSongViewModelFactory())
             .get(NowPlayingViewModel::class.java)
-
     }
 
     override fun onCreateView(
@@ -48,54 +44,82 @@ class NowPlayingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val songID = requireActivity().intent.getStringExtra("SongID")
         if (songID != null)
-            nowPlayingViewmodel.getSongInfo(songID)
-        else
-            Toast.makeText(requireContext(), "Can't load info of this song!", Toast.LENGTH_LONG)
-                .show()
-
+            nowPlayingViewModel.getSongInfo(songID)
+        else Toast.makeText(requireContext(), "Can't load info of this song!", Toast.LENGTH_LONG)
+            .show()
         addEvents()
         bindingViewModel()
     }
 
     private fun addEvents() {
         binding.btnPlay.setOnClickListener {
-            nowPlayingViewmodel.songData.value?.id?.let { it1 -> appViewModel.playMediaId(it1) }
+            //            nowPlayingViewModel.songData.value?.id?.let { it1 -> appViewModel.playMediaId(it1) }
+            stopAudio()
         }
+
+        binding.btnFavorite.setOnClickListener { onLikeSong() }
     }
 
-    fun stopAudio() {
-        val objIntent = Intent(requireContext(), SoundService::class.java)
-        requireContext().stopService(objIntent)
+    private fun onLikeSong() {
+        if (song != null && song?.id != null) {
+            binding.btnFavorite.isSelected = !binding.btnFavorite.isSelected
+            if (binding.btnFavorite.isSelected) nowPlayingViewModel.addFavoriteSong(song!!)
+            else nowPlayingViewModel.removeFavoriteSong(song?.id!!)
+        } else
+            Toast.makeText(requireContext(), "Can't like this song!", Toast.LENGTH_LONG).show()
     }
 
-    private fun updateUI(_song: Song?) {
-        song = _song
-        binding.song = song
-        binding.tvTotalTime.text =
-            song?.time?.let { Song.timestampIntToMSS(requireContext(), it) }
-        val objIntent = Intent(requireContext(), SoundService()::class.java)
+    private fun playSong(song: Song?) {
+        val objIntent = Intent(requireContext(), SoundService.getInstance()::class.java)
         objIntent.putExtra("uriSong", song?.fileName)
         requireContext().startService(objIntent)
     }
 
+    fun stopAudio() {
+        val objIntent = Intent(requireContext(), SoundService.getInstance()::class.java)
+        requireContext().stopService(objIntent)
+    }
+
+    private fun updateUI(_song: Song?) {
+        binding.btnFavorite.isSelected = song?.isLike ?: false
+        song = _song
+        binding.song = song
+        binding.tvTotalTime.text = song?.time?.let { Song.timestampIntToMSS(requireContext(), it) }
+        playSong(song)
+        addSongIntoHistory(song)
+    }
+
+    private fun addSongIntoHistory(_song: Song?) {
+        _song?.let { nowPlayingViewModel.addSongIntoHistory(it) }
+    }
+
     private fun bindingViewModel() {
-        nowPlayingViewmodel.songData.observe(this, Observer {
+        nowPlayingViewModel.songData.observe(this, Observer {
             updateUI(it)
         })
 
-        nowPlayingViewmodel.currentTimeMedia.observe(this, Observer { positon ->
+        nowPlayingViewModel.currentTimeMedia.observe(this, Observer { positon ->
             binding.tvTimePlay.text = Song.timestampToMSS(requireContext(), positon)
         })
 
-        nowPlayingViewmodel.buttonPlayRes.observe(this, Observer { res ->
+        nowPlayingViewModel.buttonPlayRes.observe(this, Observer { res ->
             btnPlay.setImageResource(res)
         })
 
-        nowPlayingViewmodel.networkStateSong.observe(this, Observer {
+        nowPlayingViewModel.networkStateSong.observe(this, Observer {
             binding.progressSongInfo.visibility =
                 if (it != null && it.status == Status.RUNNING) View.VISIBLE else View.GONE
             if (it?.status == Status.FAILED)
                 Toast.makeText(requireContext(), "Err: ${it.msg}", Toast.LENGTH_LONG).show()
+        })
+
+        nowPlayingViewModel.requestLikeSong.observe(requireActivity(), Observer { isLike ->
+            if (isLike?.status == Status.SUCCESS)
+                Toast.makeText(requireContext(), "Saved to your Library!", Toast.LENGTH_LONG).show()
+        })
+        nowPlayingViewModel.requestUnLikeSong.observe(requireActivity(), Observer { isUnlike ->
+            if (isUnlike?.status == Status.SUCCESS) Toast
+                .makeText(requireContext(), "Removed from your Library!", Toast.LENGTH_LONG).show()
         })
 
     }

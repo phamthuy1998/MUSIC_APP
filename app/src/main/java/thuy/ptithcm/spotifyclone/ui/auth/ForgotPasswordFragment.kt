@@ -14,6 +14,7 @@ import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.databinding.FragmentForgotPasswordBinding
 import thuy.ptithcm.spotifyclone.di.Injection
 import thuy.ptithcm.spotifyclone.utils.invisible
+import thuy.ptithcm.spotifyclone.utils.showFragment
 import thuy.ptithcm.spotifyclone.utils.visible
 import thuy.ptithcm.spotifyclone.viewmodel.AuthViewModel
 
@@ -22,7 +23,7 @@ class ForgotPasswordFragment : Fragment() {
 
     private val userViewModel: AuthViewModel by lazy {
         ViewModelProviders
-            .of(requireActivity(), Injection.provideAuthViewModelFactory())
+            .of(requireActivity(), Injection.provideAccViewModelFactory())
             .get(AuthViewModel::class.java)
     }
 
@@ -46,7 +47,10 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        userViewModel.resultData.observe(this, Observer {
+        userViewModel.senMailStatus.observe(requireActivity(), Observer {
+            if (it == true) showFragment(R.id.frmLogin, SignInFragment())
+        })
+        userViewModel.networkSendMail.observe(this, Observer {
             when (it.status) {
                 Status.FAILED -> {
                     binding.progressbarForgotPw.invisible()
@@ -66,8 +70,6 @@ class ForgotPasswordFragment : Fragment() {
                 }
                 Status.SUCCESS -> {
                     binding.progressbarForgotPw.invisible()
-                    requireActivity().onBackPressed()
-                    userViewModel.resultData.value=null
                 }
             }
         })

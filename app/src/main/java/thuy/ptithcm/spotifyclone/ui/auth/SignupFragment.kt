@@ -30,7 +30,7 @@ class SignupFragment : Fragment(), TextWatcher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders
-            .of(this, Injection.provideAuthViewModelFactory())
+            .of(this, Injection.provideAccViewModelFactory())
             .get(AuthViewModel::class.java)
     }
 
@@ -133,7 +133,10 @@ class SignupFragment : Fragment(), TextWatcher {
     }
 
     private fun bindViewModel() {
-        viewModel.resultData.observe(this, Observer {
+        viewModel.registerStatus.observe(requireActivity(), Observer {
+            if (it == true) showFragment(R.id.frmLogin, SignInFragment())
+        })
+        viewModel.networkRegister.observe(this, Observer {
             when (it?.status) {
                 Status.FAILED -> {
                     binding.progressbarSignUp.invisible()
@@ -153,8 +156,6 @@ class SignupFragment : Fragment(), TextWatcher {
                 }
                 Status.SUCCESS -> {
                     binding.progressbarSignUp.invisible()
-                    showFragment(R.id.frmLogin, SignInFragment(), "LoginFragment")
-                    viewModel.resultData.value = null
                 }
             }
         })

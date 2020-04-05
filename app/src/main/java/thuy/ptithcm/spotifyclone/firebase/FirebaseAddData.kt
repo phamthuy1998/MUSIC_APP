@@ -5,6 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import thuy.ptithcm.spotifyclone.data.*
 import thuy.ptithcm.spotifyclone.utils.*
 
+
 class FirebaseAddData {
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
@@ -24,6 +25,53 @@ class FirebaseAddData {
         val idPush = databaseRef()?.child(SONG)?.push()?.key
         song.id = idPush
         databaseRef()?.child(SONG)?.child(idPush.toString())?.setValue(song)
+    }
+
+    fun saveData() {
+        val dataRef = databaseRef()?.child("data")
+        dataRef?.setValue("I'm writing data")
+            ?.addOnSuccessListener {
+                // Write was successful!
+                // ...
+            }?.addOnFailureListener {
+                // Write failed
+                // ...
+            }
+    }
+
+
+    fun addHistorySong(song: Song) {
+        val query = databaseRef()?.child(HISTORY)?.child(currentUser()?.uid.toString())
+            ?.child(song.id.toString())
+        query?.setValue(song)
+    }
+
+    fun addFavoriteSong(
+        song: Song,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val query = databaseRef()?.child(FAVORITE_SONG)?.child(currentUser()?.uid.toString())
+            ?.child(song.id.toString())
+        query?.setValue(song)?.addOnSuccessListener {
+            onSuccess()
+        }?.addOnFailureListener { err ->
+            onError(err.message.toString())
+        }
+    }
+
+    fun removeFavoriteSong(
+        songID: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val query = databaseRef()?.child(FAVORITE_SONG)?.child(currentUser()?.uid.toString())
+            ?.child(songID)
+        query?.removeValue()?.addOnSuccessListener {
+            onSuccess()
+        }?.addOnFailureListener { err ->
+            onError(err.message.toString())
+        }
     }
 
     fun addAdvertise(advertise: Advertise) {

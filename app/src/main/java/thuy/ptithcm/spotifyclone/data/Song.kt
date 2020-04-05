@@ -26,7 +26,8 @@ data class Song(
     var countryName: String? = null,
     var countryID: String? = null,
     var playListId: String? = null,
-    var time: Int? = null
+    var time: Int? = null,
+    var isLike: Boolean?=null
 ) : DynamicSearchAdapter.Searchable {
 
     override fun getSearchCriteria(): String {
@@ -34,9 +35,6 @@ data class Song(
     }
 
     companion object {
-        /**
-         * Utility method to convert milliseconds to a display of minutes and seconds
-         */
         fun timestampToMSS(context: Context, position: Long): String {
             val totalSeconds = floor(position / 1E3).toInt()
             val minutes = totalSeconds / 60
@@ -74,7 +72,8 @@ data class Song(
             "countryName" to countryName,
             "countryID" to countryID,
             "playListId" to playListId,
-            "time" to time
+            "time" to time,
+            "isLike" to isLike
         )
     }
 

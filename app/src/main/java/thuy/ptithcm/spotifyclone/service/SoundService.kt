@@ -8,6 +8,12 @@ import android.os.IBinder
 
 
 class SoundService : Service() {
+
+    companion object {
+        private var instance: SoundService? = null
+        fun getInstance() = instance ?: SoundService()
+    }
+
     private var mediaPlayer: MediaPlayer? = null
     private var uri: String = ""
 

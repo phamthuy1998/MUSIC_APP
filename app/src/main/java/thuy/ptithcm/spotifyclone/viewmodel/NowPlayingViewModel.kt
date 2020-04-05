@@ -16,7 +16,9 @@ import thuy.ptithcm.spotifyclone.utils.isPlaying
 class NowPlayingViewModel(
     private val repository: SongRepository
 ) : ViewModel() {
-    private var requestSong= MutableLiveData<ResultData<Song>>()
+    private var requestSong = MutableLiveData<ResultData<Song>>()
+    var requestLikeSong = MutableLiveData<NetworkState>()
+    var requestUnLikeSong = MutableLiveData<NetworkState>()
     private val handler = Handler(Looper.getMainLooper())
     private var playbackState: PlaybackStateCompat = EMPTY_PLAYBACK_STATE
     private var updatePosition = true
@@ -32,6 +34,10 @@ class NowPlayingViewModel(
 
     fun getSongInfo(songID: String) {
         requestSong.value = repository.getSongByID(songID)
+    }
+
+    fun addSongIntoHistory(song: Song) {
+        repository.addSongIntoHistory(song)
     }
 
     val currentTimeMedia = MutableLiveData<Long>().apply {
@@ -74,15 +80,23 @@ class NowPlayingViewModel(
         updatePosition = false
     }
 
-}
+    fun addFavoriteSong(song: Song) {
+        requestLikeSong = repository.addSongIntoFavorite(song)
+    }
 
+    fun removeFavoriteSong(id: String) {
+        requestUnLikeSong = repository.removeFavoriteSong(id)
+    }
+
+}
 
 @Suppress("UNCHECKED_CAST")
 class SongViewModelFactory(
     private val repository: SongRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>) = NowPlayingViewModel(repository) as T
+    override fun <T : ViewModel?> create(modelClass: Class<T>) =
+        NowPlayingViewModel(repository) as T
 
 }
 
