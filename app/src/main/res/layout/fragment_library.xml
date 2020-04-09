@@ -21,52 +21,43 @@
         tools:context=".ui.library.LibraryFragment">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbarLibrary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tbAcc"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:contentScrim="@color/colorOrange"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:layout_height="?actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tbAcc"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                    <TextView
+                        style="@style/txtToolbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/library"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            style="@style/txtToolbar"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/library"
-                            android:textStyle="bold" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivAvtLibrary"
+                        imageFromUrlForAvt="@{user.profilePhoto}"
+                        android:layout_width="?actionBarSize"
+                        android:layout_height="?actionBarSize"
+                        android:layout_marginEnd="@dimen/default_margin"
+                        android:onClick="showProfileFragment"
+                        android:padding="12dp"
+                        tools:src="@drawable/trucxinh" />
+                </LinearLayout>
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivAvtLibrary"
-                            imageFromUrlForAvt="@{user.profilePhoto}"
-                            android:layout_width="?actionBarSize"
-                            android:layout_height="?actionBarSize"
-                            android:layout_marginEnd="@dimen/default_margin"
-                            android:onClick="showProfileFragment"
-                            android:padding="12dp"
-                            tools:src="@drawable/trucxinh" />
-                    </LinearLayout>
-
-                </androidx.appcompat.widget.Toolbar>
-
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </androidx.appcompat.widget.Toolbar>
 
             <TextView
                 android:layout_width="match_parent"
@@ -74,7 +65,6 @@
                 android:background="@color/colorGrayLine" />
 
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <ScrollView
             android:layout_width="match_parent"
@@ -109,7 +99,6 @@
                     android:drawableStart="@drawable/ic_songs"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
-                    android:onClick="@{(v)-> viewmodel.showFavoriteSongs(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/favorite_song"
                     android:textColor="#000" />
@@ -135,7 +124,6 @@
                     android:drawableStart="@drawable/ic_album"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
-                    android:onClick="@{(v)-> viewmodel.showAlbumLike(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/albums"
                     android:textColor="#000" />
@@ -150,7 +138,7 @@
                     android:background="@color/colorGrayLine" />
 
                 <TextView
-                    android:id="@+id/btnArtist"
+                    android:id="@+id/btnShowListArtist"
                     style="@style/txtHeader2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -161,7 +149,6 @@
                     android:drawableStart="@drawable/ic_artist"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
-                    android:onClick="@{(v)-> viewmodel.showArtistFollowing(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/artist"
                     android:textColor="#000" />
@@ -187,7 +174,6 @@
                     android:drawableStart="@drawable/ic_playlist"
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
-                    android:onClick="@{(v)-> viewmodel.showPlaylist(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/playlist"
                     android:textColor="#000" />
@@ -287,8 +273,8 @@
                     android:id="@+id/progressHistorySong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:visibility="gone"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    tools:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHistorySong"
@@ -297,7 +283,7 @@
                     android:layout_marginStart="@dimen/default_margin"
                     android:layout_marginEnd="@dimen/default_margin"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="1"
+                    tools:itemCount="3"
                     tools:listitem="@layout/item_song" />
 
                 <TextView
@@ -312,11 +298,9 @@
                     android:drawableEnd="@drawable/ic_arrow_right"
                     android:drawablePadding="@dimen/default_margin"
                     android:gravity="center"
-                    android:onClick="@{(v) -> viewmodel.showAlHistory(v)}"
                     android:padding="@dimen/paddingDefault"
                     android:text="@string/show_all_listening_history"
                     android:textColor="#2196F3" />
-
             </LinearLayout>
         </ScrollView>
 

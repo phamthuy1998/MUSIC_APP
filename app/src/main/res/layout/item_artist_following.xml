@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="artist"
+            type="thuy.ptithcm.spotifyclone.data.Artist" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/itemArtistFollowing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/marginM"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivArtistF"
+            imageFromUrlForAvt="@{artist.imagePhoto}"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="@dimen/marginM"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/country" />
+
+
+        <TextView
+            android:id="@+id/tvArtistNameF"
+            style="@style/textTitleBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginS"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_toEndOf="@id/ivArtistF"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{artist.artistName}"
+            android:textColor="@color/colorText"
+            android:textStyle="normal"
+            tools:text="Playlist name" />
+
+        <TextView
+            android:id="@+id/tvFollowCounterF"
+            style="@style/txtSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvArtistNameF"
+            android:layout_margin="@dimen/marginS"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_toEndOf="@id/ivArtistF"
+            android:drawableStart="@drawable/ic_followers"
+            android:drawablePadding="@dimen/paddingM"
+            android:text="@{artist.followCounter.toString()}"
+            android:textColor="@color/colorGray"
+            android:textStyle="normal"
+            tools:text="1k" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/ivArtistF"
+            android:background="@color/colorGrayLine" />
+
+    </RelativeLayout>
+</layout>

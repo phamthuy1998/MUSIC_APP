@@ -9,6 +9,7 @@ class HomeViewModel(
 ) : ViewModel() {
     private var requestAdvertise = MutableLiveData<ResultData<ArrayList<Advertise>>>()
     private var requestSongType = MutableLiveData<ResultData<ArrayList<SongType>>>()
+    private var requestArtistList = MutableLiveData<ResultData<ArrayList<Artist>>>()
     private var requestPlaylist = MutableLiveData<ResultData<ArrayList<Playlist>>>()
     private var requestAlbum = MutableLiveData<ResultData<ArrayList<Album>>>()
     private var requestUser = MutableLiveData<ResultData<User>>()
@@ -16,14 +17,16 @@ class HomeViewModel(
 
     init {
         getAdvertise()
+        getListArtist()
         getSongType()
         getPlaylist()
         getUserInfo()
         getListAlbum()
     }
 
-    fun refresh(){
+    fun refresh() {
         getAdvertise()
+        getListArtist()
         getUserInfo()
         getSongType()
         getPlaylist()
@@ -81,6 +84,19 @@ class HomeViewModel(
         it.networkState
     }
 
+    val listArtist: LiveData<java.util.ArrayList<Artist>> =
+        Transformations.switchMap(requestArtistList) {
+            it.data
+        }
+
+    val networkStateArtist: LiveData<NetworkState> = Transformations.switchMap(requestArtistList) {
+        it.networkState
+    }
+
+    private fun getListArtist() {
+        requestArtistList.value = repository.getListArtist()
+    }
+
     private fun getAdvertise() {
         requestAdvertise.value = repository.getAdvertise()
     }
@@ -92,6 +108,7 @@ class HomeViewModel(
     private fun getPlaylist() {
         requestPlaylist.value = repository.getPlaylist()
     }
+
     private fun getListAlbum() {
         requestAlbum.value = repository.getListAlbum()
     }

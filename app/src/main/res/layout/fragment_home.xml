@@ -19,12 +19,12 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivAvt"
-            android:onClick="showProfileFragment"
             android:layout_width="?actionBarSize"
             android:layout_height="?actionBarSize"
+            android:onClick="showProfileFragment"
             android:padding="12dp"
-            tools:src="@drawable/trucxinh"
-            tools:ignore="OnClick" />
+            tools:ignore="OnClick"
+            tools:src="@drawable/trucxinh" />
 
         <TextView
             android:id="@+id/edtSearchHome"
@@ -32,13 +32,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
-            android:onClick="showFragmentSearch"
             android:drawableStart="@drawable/search_selector"
             android:drawablePadding="@dimen/default_margin"
             android:hint="@string/search"
+            android:onClick="showFragmentSearch"
             android:padding="@dimen/paddingS"
             tools:ignore="OnClick" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tbHome"
+        android:background="@color/colorGrayLine"
+        tools:ignore="Suspicious0dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -130,6 +137,47 @@
                 android:background="@color/colorGrayLine" />
 
             <TextView
+                android:id="@+id/titleArtist"
+                style="@style/textTitleHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/marginM"
+                android:text="@string/artists_you_should_follow"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/marginS"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_artist" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrayLine"
+                tools:ignore="Suspicious0dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#F0F0F0" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/colorGrayLine" />
+
+            <TextView
                 android:id="@+id/tvTitleAlbum"
                 style="@style/textTitleHome"
                 android:layout_width="wrap_content"
@@ -201,8 +249,6 @@
         android:id="@+id/progressHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

@@ -17,6 +17,7 @@ import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.databinding.FragmentNowPlayingBinding
 import thuy.ptithcm.spotifyclone.di.Injection
 import thuy.ptithcm.spotifyclone.service.SoundService
+import thuy.ptithcm.spotifyclone.viewmodel.MainViewModel
 import thuy.ptithcm.spotifyclone.viewmodel.NowPlayingViewModel
 
 
@@ -25,6 +26,12 @@ class NowPlayingFragment : Fragment() {
     private lateinit var binding: FragmentNowPlayingBinding
     private var song: Song? = null
     private lateinit var nowPlayingViewModel: NowPlayingViewModel
+
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProviders
+            .of(requireActivity(), Injection.provideMainViewModelFactory())
+            .get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +50,9 @@ class NowPlayingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val songID = requireActivity().intent.getStringExtra("SongID")
-        if (songID != null) {
-            nowPlayingViewModel.getSongInfo(songID)
-            nowPlayingViewModel.getStatusLikeOfSong(songID)
+        if (mainViewModel.songID.value  != null) {
+            nowPlayingViewModel.getSongInfo(mainViewModel.songID.value!!)
+            nowPlayingViewModel.getStatusLikeOfSong(mainViewModel.songID.value !!)
         } else Toast.makeText(requireContext(), "Can't load info of this song!", Toast.LENGTH_LONG)
             .show()
         addEvents()

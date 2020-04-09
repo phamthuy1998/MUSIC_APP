@@ -6,6 +6,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorText">#4A4A4A</color>
+    <color name="Black">#000000</color>
     <color name="colorOrange">#E55F2C</color>
     <color name="colorGrayBtnEnable">#ADAAA9</color>
     <color name="colorTextButton">#262626</color>
@@ -13,6 +14,7 @@
     <color name="colorGrayIc">#95000000</color>
     <color name="colorOrangeTrans">#9FE55F2C</color>
     <color name="colorTextSong">#2B2B2B</color>
-    <color name="colorGrayLine">#D7D7D7</color>
+    <color name="colorGrayLine">#CACACA</color>
     <color name="colorWhiteBg">#FFFFFF</color>
+    <color name="colorGray">#6B6B6B</color>
 </resources>

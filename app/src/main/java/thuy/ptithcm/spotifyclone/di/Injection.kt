@@ -21,9 +21,14 @@ object Injection {
         return AlbumViewModelFactory(AlbumRepositoryImpl())
     }
 
+    fun provideMainViewModelFactory(): ViewModelProvider.Factory {
+        return MainViewModelFactory(AlbumRepositoryImpl())
+    }
+
     fun provideKindOfSongViewModelFactory(): ViewModelProvider.Factory {
         return KindOfSongViewModelFactory(KindOfSongRepositoryImpl())
     }
+
     fun provideHistorySongViewModelFactory(): ViewModelProvider.Factory {
         return HistorySongViewModelFactory(HistorySongRepositoryImpl())
     }
@@ -38,6 +43,14 @@ object Injection {
 
     fun provideFavoriteSongViewModelFactory(): ViewModelProvider.Factory {
         return FavoriteSongViewModelFactory(FavoriteSongRepositoryImpl())
+    }
+
+    fun provideFavoriteAlbumViewModelFactory(): ViewModelProvider.Factory {
+        return FavoriteAlbumViewModelFactory(FavoriteAlbumRepositoryImpl())
+    }
+
+    fun provideArtistViewModelFactory(): ViewModelProvider.Factory {
+        return ArtistViewModelFactory(ArtistRepositoryImpl())
     }
 
 }

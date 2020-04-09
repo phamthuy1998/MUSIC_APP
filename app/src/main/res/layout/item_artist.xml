@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="artist"
+            type="thuy.ptithcm.spotifyclone.data.Artist" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/itemArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/marginM"
+        android:backgroundTint="@color/colorWhite"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivArtist"
+            imageFromUrlForAvt="@{artist.imagePhoto}"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="@dimen/marginM"
+            android:contentDescription="@string/image_background"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/country" />
+
+        <TextView
+            android:id="@+id/tvArtistName"
+            style="@style/textTitleBold"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/marginS"
+            android:layout_marginTop="@dimen/marginS"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:ellipsize="end"
+            android:gravity="center|top"
+            android:maxLines="2"
+            android:text="@{artist.artistName}"
+            android:textColor="@color/colorText"
+            android:textStyle="normal"
+            tools:text="Playlist name" />
+    </LinearLayout>
+</layout>

@@ -1,7 +1,6 @@
 package thuy.ptithcm.spotifyclone.ui.home
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -17,14 +16,21 @@ import thuy.ptithcm.spotifyclone.R
 import thuy.ptithcm.spotifyclone.data.SongType
 import thuy.ptithcm.spotifyclone.data.Status
 import thuy.ptithcm.spotifyclone.di.Injection
-import thuy.ptithcm.spotifyclone.ui.album.AlbumActivity
-import thuy.ptithcm.spotifyclone.ui.home.adapter.AlbumAdapter
+import thuy.ptithcm.spotifyclone.ui.album.AlbumFragment
+import thuy.ptithcm.spotifyclone.ui.album.adapter.AlbumAdapter
+import thuy.ptithcm.spotifyclone.ui.artist.ArtistInfoFragment
+import thuy.ptithcm.spotifyclone.ui.artist.adapter.ArtistAdapter
 import thuy.ptithcm.spotifyclone.ui.home.adapter.BannerAdapter
-import thuy.ptithcm.spotifyclone.ui.home.adapter.PlayListAdapter
-import thuy.ptithcm.spotifyclone.ui.home.adapter.SongTypeAdapter
-import thuy.ptithcm.spotifyclone.ui.song.SongActivity
-import thuy.ptithcm.spotifyclone.ui.songtype.SongTypeActivity
+import thuy.ptithcm.spotifyclone.ui.playlist.PlaylistDetailFragment
+import thuy.ptithcm.spotifyclone.ui.playlist.adapter.PlayListAdapter
+import thuy.ptithcm.spotifyclone.ui.song.SongFragment
+import thuy.ptithcm.spotifyclone.ui.songtype.SongTypesFragment
+import thuy.ptithcm.spotifyclone.ui.songtype.adapter.SongTypeAdapter
+import thuy.ptithcm.spotifyclone.utils.addFragment
+import thuy.ptithcm.spotifyclone.utils.showFragment
 import thuy.ptithcm.spotifyclone.viewmodel.HomeViewModel
+import thuy.ptithcm.spotifyclone.viewmodel.MainViewModel
+
 
 class HomeFragment : Fragment() {
 
@@ -36,11 +42,14 @@ class HomeFragment : Fragment() {
     private val albumAdapter by lazy {
         AlbumAdapter(this::itemAlbumClick)
     }
+    private val artistAdapter by lazy {
+        ArtistAdapter(this::itemArtistClick)
+    }
     private val bannerAdapter by lazy {
         BannerAdapter(this::itemBannerClick)
     }
     private val playlistAdapter by lazy {
-        PlayListAdapter(this::songTypeClick)
+        PlayListAdapter(this::playlistItemClick)
     }
     private val songTypeAdapter by lazy {
         SongTypeAdapter(this::songTypeClick)
@@ -54,29 +63,50 @@ class HomeFragment : Fragment() {
             .of(requireActivity(), Injection.provideHomeViewModelFactory())
             .get(HomeViewModel::class.java)
     }
+    private lateinit var mainViewModel: MainViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mainViewModel = ViewModelProviders
+            .of(requireActivity(), Injection.provideHomeViewModelFactory())
+            .get(MainViewModel::class.java)
+    }
 
     private fun itemBannerClick(songId: String?) {
-        val intent = Intent(requireContext(), SongActivity().javaClass)
-        intent.putExtra("SongID", songId)
-        requireContext().startActivity(intent)
+        mainViewModel.songID.value = songId
+        activity.addFragment(fragment = SongFragment(), tag = "NowPlaying")
     }
 
     private fun songTypeClick(songType: SongType?) {
-        val intent = Intent(requireContext(), SongTypeActivity().javaClass)
-        intent.putExtra("SongType", songType)
-        requireContext().startActivity(intent)
+        val songTypesFragment = SongTypesFragment()
+        val arguments = Bundle()
+        arguments.putParcelable("SongType", songType)
+        songTypesFragment.arguments = arguments
+        showFragment(R.id.container, songTypesFragment, "SongTypesFragment")
     }
 
-    private fun songTypeClick(id: String?) {
-        val intent = Intent(requireContext(), SongTypeActivity().javaClass)
-        intent.putExtra("SongTypeID", id)
-        requireContext().startActivity(intent)
+    private fun playlistItemClick(id: String?) {
+        val playlistFragment = PlaylistDetailFragment()
+        val arguments = Bundle()
+        arguments.putString("PlaylistID", id)
+        playlistFragment.arguments = arguments
+        showFragment(R.id.container, playlistFragment, "PlaylistFragment")
     }
 
     private fun itemAlbumClick(id: String?) {
-        val intent = Intent(requireContext(), AlbumActivity().javaClass)
-        intent.putExtra("albumID", id)
-        requireContext().startActivity(intent)
+        val albumFragment = AlbumFragment()
+        val arguments = Bundle()
+        arguments.putString("albumID", id)
+        albumFragment.arguments = arguments
+        showFragment(R.id.container, albumFragment, "AlbumFragment")
+    }
+
+    private fun itemArtistClick(id: String?) {
+        val artistFragment = ArtistInfoFragment()
+        val arguments = Bundle()
+        arguments.putString("artistID", id)
+        artistFragment.arguments = arguments
+        showFragment(R.id.container, artistFragment, "ArtistInfoFragment")
     }
 
     override fun onCreateView(
@@ -89,25 +119,36 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBanner()
+        initArtist()
         initAlbum()
         initSongType()
         initPlaylist()
         viewModelBinding()
     }
 
+    private fun initArtist() {
+        rvArtist.adapter = artistAdapter
+        rvSongType.setHasFixedSize(true)
+        rvSongType.setItemViewCacheSize(20)
+    }
+
     private fun initSongType() {
         rvSongType.adapter = songTypeAdapter
+        rvSongType.setHasFixedSize(true)
+        rvSongType.setItemViewCacheSize(20)
     }
 
     private fun initPlaylist() {
         rvPlayList.adapter = playlistAdapter
+        rvPlayList.setHasFixedSize(true)
+        rvPlayList.setItemViewCacheSize(20)
     }
 
     private fun initBanner() {
         viewPagerBanner.adapter = bannerAdapter
         indicatorBanner.setViewPager(viewPagerBanner)
         handler = Handler()
-        var currentPage = 0
+        var currentPage: Int
         runnable = Runnable {
             kotlin.run {
                 if (viewPagerBanner != null) {
@@ -124,6 +165,8 @@ class HomeFragment : Fragment() {
 
     private fun initAlbum() {
         rvAlbum.adapter = albumAdapter
+        rvAlbum.setHasFixedSize(true)
+        rvAlbum.setItemViewCacheSize(20)
     }
 
     private fun viewModelBinding() {
@@ -143,6 +186,7 @@ class HomeFragment : Fragment() {
         homeViewModel.networkStateAdv.observe(requireActivity(), Observer {
             if (it.status == Status.FAILED)
                 Toast.makeText(requireActivity(), it.msg, Toast.LENGTH_LONG).show()
+            progressHome.visibility = if (it.status == Status.RUNNING) View.VISIBLE else View.GONE
         })
 
         // Album
@@ -163,7 +207,7 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.networkStatePlaylist.observe(requireActivity(), Observer {
-//            if (it?.status == Status.FAILED)
+            //            if (it?.status == Status.FAILED)
 //                Toast.makeText(requireActivity(), it.msg, Toast.LENGTH_LONG).show()
         })
 
@@ -171,6 +215,16 @@ class HomeFragment : Fragment() {
         homeViewModel.listSongType.observe(requireActivity(), Observer {
             tvTitleSongType.visibility = if (it != null && it.size != 0) View.VISIBLE else View.GONE
             songTypeAdapter.addDataSongType(it)
+        })
+
+        // Artist
+        homeViewModel.listArtist.observe(requireActivity(), Observer {
+//            if (it != null && it.size != 0) {
+//                titleArtist.visible()
+//            } else {
+//                titleArtist.gone()
+//            }
+            artistAdapter.addDataArtist(it)
         })
 
         homeViewModel.networkStateSongType.observe(requireActivity(), Observer {

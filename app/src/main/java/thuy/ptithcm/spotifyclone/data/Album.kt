@@ -7,7 +7,8 @@ import com.google.firebase.database.IgnoreExtraProperties
 data class Album(
     var id: String? = null,
     var albumName: String? = null,
-    var artistList: ArrayList<ArtistAlbum>? = null,
+    var artistID: String? = null,
+    var artistName: String? = null,
     var imageURL: String? = null,
     var description: String? = null
 ){
@@ -16,7 +17,8 @@ data class Album(
         return mapOf(
             "id" to id,
             "albumName" to albumName,
-            "artistList" to artistList,
+            "artistID" to artistID,
+            "artistName" to artistName,
             "imageURL" to imageURL,
             "description" to description
         )

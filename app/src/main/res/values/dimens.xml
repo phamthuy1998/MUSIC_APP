@@ -13,4 +13,5 @@
     <dimen name="marginS">5dp</dimen>
     <dimen name="marginM">10dp</dimen>
     <dimen name="paddingS">5dp</dimen>
+    <dimen name="paddingM">10dp</dimen>
 </resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <ImageView
+            android:id="@+id/btnBackFavoriteAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/paddingDefault"
+            android:src="@drawable/ic_back_btn"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            style="@style/txtToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:gravity="center"
+            android:text="@string/favorite_album"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/layoutFilterAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/lineFilter"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="#F3F3F3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/lineFilter"
+            android:background="@color/colorGrayLine" />
+
+        <TextView
+            android:id="@+id/tvFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lineFilter"
+            android:layout_marginStart="@dimen/default_margin"
+            android:gravity="start|center"
+            android:padding="@dimen/paddingDefault"
+            android:text="@string/filter" />
+
+        <ImageView
+            android:id="@+id/btnFilterAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvFilter"
+            android:layout_alignEnd="@id/tvFilter"
+            android:layout_alignBottom="@id/tvFilter"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:padding="@dimen/paddingS"
+            android:src="@drawable/ic_filter"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/tvFilter"
+            android:background="@color/colorGrayLine" />
+    </RelativeLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swRefreshFavoriteAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridView
+                android:id="@+id/gvFavoriteAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_margin"
+                android:gravity="center"
+                android:numColumns="auto_fit"
+                android:orientation="vertical"
+                android:verticalSpacing="@dimen/default_margin"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_album" />
+
+            <ProgressBar
+                android:id="@+id/progressFavoriteAlbum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <include
+                android:id="@+id/llListFavoriteAlbumEmpty"
+                layout="@layout/list_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

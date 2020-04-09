@@ -61,7 +61,7 @@
             android:layout_marginTop="@dimen/default_margin"
             android:background="#D7D7D7" />
 
-        <ImageView
+        <thuy.ptithcm.spotifyclone.ui.widget.SongPopupMenu
             android:id="@+id/btnSongShowMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
